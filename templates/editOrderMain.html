@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Index </title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">					
+	</head>
+	<body></br></br></br></br></br>
+		<div align="center">
+		<div align="center" class="border">
+			<div class="header">
+				<h1 class="word">Editing Page</h1>
+		    </div></br></br></br></br>
+            <table>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product ID</th>
+                    <th>User ID</th>
+                    <th>Quantity Ordered</th>
+                    <th>Status</th>
+                </tr>
+                {% for item in order %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.productid}}</td>
+                            <td>{{item.userid}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.status}}</td>
+                        </tr>
+                {% endfor %}
+            </table>
+            <div>
+                <form action="{{ url_for('edittingOrder') }}" method="post">
+                    <div class="msg">{{ msg }}</div>
+                    </br></br>
+                    <input id="newProduct" name="newProduct" type="text" placeholder="New Product ID" class="textbox"/></br></br>
+                    <input id="newQuantity" name="newQuantity" type="text" placeholder="New Quantity" class="textbox"/></br>
+                    <h4 class="word"> OR </h4>
+                    <input id="delete" name="delete" type="text" placeholder="Type Delete to Delete" class="textbox"/></br></br>
+                    <input type="submit" class="btn" value="Submit Update"></br>
+                </form>
+            </div></br>
+            <a href="{{ url_for('editorder') }}" class="btn">Back</a>
+		</div>
+	</body>
+</html>
