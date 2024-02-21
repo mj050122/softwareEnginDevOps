@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Index </title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">					
+	</head>
+	<body></br></br></br></br></br>
+		<div align="center">
+		<div align="center" class="border">
+			<div class="header">
+				<h2 class="bottom">Edit an Order</h2>
+			</div></br></br></br>
+                <h2 class="word">
+                    <form action="{{ url_for('regularEditChosenOrder') }}" method="post">
+                    <div class="msg">{{ msg }}</div>
+                        <input id="editid" name="editid" type="text" placeholder="Order ID" class="textbox"/></br></br></br>
+                        <input type="submit" class="btn" value="Submit Order"></br></br>
+                    </form>
+                </h2>
+                </br>
+				<a href="{{ url_for('regularlanding') }}" class="btn">Back</a>
+		</div>
+		</div>
+	</body>
+</html>

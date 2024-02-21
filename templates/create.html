@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Index </title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">					
+	</head>
+	<body></br></br></br></br></br>
+		<div align="center">
+		<div align="center" class="border">
+			<div class="header">
+				<h2 class="bottom">Create a New Order</h2>
+			</div></br></br>
+                <table>
+                    <tr>
+                        <th>Product</th>
+                        <th>Product ID</th>
+                    </tr>
+                    <tr>
+                        <td>Headphones</td>
+                        <td>260503</td>
+                    </tr>
+                    <tr>
+                        <td>Keyboards</td>
+                        <td>310306</td>
+                    </tr>
+                    <tr>
+                        <td>Monitors</td>
+                        <td>80570</td>
+                    </tr>
+                    <tr>
+                        <td>Mouses</td>
+                        <td>123456</td>
+                    </tr>
+                    <tr>
+                        <td>Chargers</td>
+                        <td>200872</td>
+                    </tr>
+                    <tr>
+                        <td>Styluses</td>
+                        <td>246810</td>
+                    </tr>
+                    <tr>
+                        <td>Cameras</td>
+                        <td>397392</td>
+                    </tr>
+                    <tr>
+                        <td>Microphones</td>
+                        <td>437549</td>
+                    </tr>
+                    <tr>
+                        <td>Adapters</td>
+                        <td>615382</td>
+                    </tr>
+                    <tr>
+                        <td>Extension Cords</td>
+                        <td>963312</td>
+                    </tr>
+                </table>
+                <h2 class="word">
+                    <form action="{{ url_for('neworder') }}" method="post">
+                    <div class="msg">{{ msg }}</div>
+                        <input id="id" name="id" type="text" placeholder="Required Product ID" class="textbox"/></br></br>
+                        <input id="quantity" name="quantity" type="text" placeholder="Required quantity" class="textbox"/></br></br>
+                        <input type="submit" class="btn" value="Submit Order"></br></br>
+                    </form>
+                </h2>
+				<a href="{{ url_for('logout') }}" class="btn">Logout</a>
+		</div>
+		</div>
+	</body>
+</html>
