@@ -9,6 +9,7 @@ phases:
   build:
     commands:
       - python -m pytest
+      - bandit app.py
 artifacts:
   files:
     - '**/*'
