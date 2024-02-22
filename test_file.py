@@ -35,7 +35,7 @@ def test_valid_login(client):
     client, username, password = client
     # Send a POST request with valid login credentials
     response = client.post('/login', data=dict(
-        username=username,
+        username='username', #CHANGE BACK TO USERNAME WITHOUT QUOTATIONS
         password=password
     ), follow_redirects=True)
     # Check if the login was successful by verifying if the login page is not returned
