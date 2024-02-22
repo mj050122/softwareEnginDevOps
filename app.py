@@ -97,8 +97,6 @@ def register():
             msg = 'Account already exists!'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
         elif not username or not password or not email:
             msg = 'Please fill out the form!'
         else:

@@ -22,6 +22,13 @@ def client():
             yield client, username, password  # Pass the fetched user data to the test function
     except Exception as e:
         pytest.fail(f"Error setting up fixture: {e}")
+    #cleaning up after tests
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM accounts WHERE username='new_user'")
+    cursor.execute("DELETE FROM blocked_users WHERE username='invalid_username'")
+    conn.commit()
+    cursor.close()
 
 def test_valid_login(client):
     # Unpack the fetched user data directly from the fixture
@@ -35,7 +42,6 @@ def test_valid_login(client):
     assert b'Login' not in response.data
 
 def test_invalid_login(client):
-    # Unpack the fetched user data directly from the fixture
     client, _, _ = client  # We don't need the username and password for an invalid login
     # Send a POST request with invalid login credentials
     response = client.post('/login', data=dict(
@@ -44,3 +50,31 @@ def test_invalid_login(client):
     ), follow_redirects=True)
     # Check if the login failed by verifying if the login page is returned
     assert b'Login' in response.data
+
+def test_valid_registration(client):
+    client, _, _ = client 
+    # Send a POST request with valid registration data
+    response = client.post('/register', data=dict(
+        username='new_user',
+        password='new_password',
+        email='new_user@example.com'
+    ), follow_redirects=True)
+    assert b'You have successfully registered!' in response.data
+
+def test_existing_registration(client):
+    client, _, _ = client
+    response = client.post('/register', data=dict(
+        username='jeremyFitzgerald',  # An existing username
+        password='new_password',
+        email='new_user@example.com'
+    ), follow_redirects=True)
+    assert b'You have successfully registered!' not in response.data
+
+def test_invalid_email(client):
+    client, _, _ = client
+    response = client.post('/register', data=dict(
+        username='new_user',
+        password='new_password',
+        email='totallyinvalidemail.no'   
+    ), follow_redirects=True)
+    assert b'You have successfully registered!' not in response.data
