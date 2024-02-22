@@ -9,7 +9,7 @@ phases:
   build:
     commands:
       - python -m pytest
-      - bandit --severity HIGH -r app.py
+      - bandit --severity mediu -r app.py
 artifacts:
   files:
     - '**/*'
