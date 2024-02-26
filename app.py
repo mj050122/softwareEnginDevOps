@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import re
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -14,6 +17,26 @@ def is_admin(username):
     admin_account = cursor.fetchone()
     conn.close()
     return True if admin_account else False
+
+def send_email(sender_email, sender_password, recipient_email, subject, body):
+    smtp_server = 'smtp.gmail.com'
+    smtp_port = 587
+    # Create a secure SSL context
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    # Log in to the SMTP server
+    server.login(sender_email, sender_password)
+    # Construct email message
+    message = MIMEMultipart()
+    message['From'] = sender_email
+    message['To'] = recipient_email
+    message['Subject'] = subject
+    # Attach the body to the email
+    message.attach(MIMEText(body, 'plain'))
+    # Send the email
+    server.sendmail(sender_email, recipient_email, message.as_string())
+    # Close the SMTP connection
+    server.quit()
 
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
@@ -32,6 +55,16 @@ def login():
             blocked_user = cursor.fetchone()
             if blocked_user and blocked_user[2] >= 5:
                 msg = 'Your account has been blocked due to multiple failed login attempts. Please contact support.'
+                conn = sqlite3.connect(DB_NAME)
+                cursor = conn.cursor()
+                cursor.execute('SELECT email FROM accounts WHERE username = ?', (username,))
+                blocked_email = cursor.fetchone()
+                conn.close()
+                send_email(sender_email='techstoreteam58@gmail.com',
+                           sender_password='jypd lnfi raey uhau', #actually a google app password for security
+                           recipient_email=blocked_email,  
+                           subject='Account Blocked',
+                           body=f"Dear {username}, your account has been blocked due to multiple failed login attempts.")
             else:
                 # Verify password
                 if password == account[2]:
